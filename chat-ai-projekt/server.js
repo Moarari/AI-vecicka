@@ -27,10 +27,16 @@ app.post("/api/chat", async (req, res) => {
 
         const data = await response.json();
 
+        // Ak API vráti chybu, zobrazíme ju
+        if (!response.ok) {
+            console.error("OpenAI API error:", data);
+            return res.status(500).json({ error: data.error?.message || "API error" });
+        }
+
         res.json({ reply: data.choices[0].message.content });
 
     } catch (error) {
-        console.error(error);
+        console.error("Server error:", error);
         res.status(500).json({ error: "Server error" });
     }
 });
