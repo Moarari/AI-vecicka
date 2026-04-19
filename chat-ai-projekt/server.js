@@ -15,7 +15,7 @@ app.post("/api/chat", async (req, res) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${process.env.OPENAI\_API\_KEY}`
+                "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
             },
             body: JSON.stringify({
                 model: "gpt-4o-mini",
@@ -26,9 +26,11 @@ app.post("/api/chat", async (req, res) => {
         });
 
         const data = await response.json();
+
         res.json({ reply: data.choices[0].message.content });
 
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Server error" });
     }
 });
