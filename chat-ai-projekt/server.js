@@ -11,7 +11,7 @@ app.post("/api/chat", async (req, res) => {
     const userMessage = req.body.message;
 
     try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -30,7 +30,7 @@ app.post("/api/chat", async (req, res) => {
         // Ak API vráti chybu, zobrazíme ju
         if (!response.ok) {
             console.error("OpenAI API error:", data);
-            return res.status(500).json({ error: data.error?.message || "API error" });
+            return res.status(001).json({ error: data.error?.message || "API error" });
         }
 
         res.json({ reply: data.choices[0].message.content });
