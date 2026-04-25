@@ -15,10 +15,10 @@ app.post("/api/chat", async (req, res) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+                "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
             },
             body: JSON.stringify({
-                model: "gpt-4o-mini",
+                model: "llama-3.1-8b-instant",
                 messages: [
                     { role: "user", content: userMessage }
                 ]
@@ -27,10 +27,9 @@ app.post("/api/chat", async (req, res) => {
 
         const data = await response.json();
 
-        // Ak API vráti chybu, zobrazíme ju
         if (!response.ok) {
-            console.error("OpenAI API error:", data);
-            return res.status(001).json({ error: data.error?.message || "API error" });
+            console.error("Groq API error:", data);
+            return res.status(500).json({ error: data.error?.message || "API error" });
         }
 
         res.json({ reply: data.choices[0].message.content });
